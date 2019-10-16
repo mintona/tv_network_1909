@@ -65,7 +65,7 @@ class NetworkTest < Minitest::Test
     assert_equal true, @nbc.all_characters.include?(@leslie_knope)
     assert_equal true, @nbc.all_characters.include?(@ron_swanson)
 
-    bachelor_host = Character.new({name: "BACHELOR_HOST", actor: "Chris Harrison", salary: 2_500_00})
+    bachelor_host = Character.new({name: "Bachelor Host", actor: "Chris Harrison", salary: 2_500_00})
 
     assert_equal false, @nbc.all_characters.include?(bachelor_host)
 
