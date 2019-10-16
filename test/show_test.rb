@@ -17,7 +17,9 @@ class ShowTest < Minitest::Test
 
   def test_it_exists
     assert_instance_of Show, @knight_rider
+  end
 
+  def test_it_initializes
     assert_equal "Knight Rider", @knight_rider.name
 
     assert_equal "Glen Larson", @knight_rider.creator
@@ -28,6 +30,5 @@ class ShowTest < Minitest::Test
   def test_it_has_total_salary
     assert_equal 2600000, @knight_rider.total_salary
   end
-
-
+  
 end
