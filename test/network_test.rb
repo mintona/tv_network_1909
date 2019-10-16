@@ -20,7 +20,6 @@ class NetworkTest < Minitest::Test
     @ron_swanson = Character.new({name: "Ron Swanson", actor: "Nick Offerman", salary: 1_400_000})
 
     @parks_and_rec = Show.new("Parks and Recreation", "Michael Shur & Greg Daniels", [@leslie_knope, @ron_swanson])
-
   end
 
   def test_it_exists
@@ -50,12 +49,77 @@ class NetworkTest < Minitest::Test
     assert_equal false, @nbc.shows.include?(@the_bachelor)
   end
 
-  def test_it_can_find_highest_paid_actor
+  def test_it_can_list_all_characters
+    assert_equal [], @nbc.all_characters
 
     @nbc.add_show(@knight_rider)
+
+    assert_equal 2, @nbc.all_characters.count
+    assert_equal true, @nbc.all_characters.include?(@michael_knight)
+    assert_equal true, @nbc.all_characters.include?(@kitt)
+
+    @nbc.add_show(@parks_and_rec)
+
+    assert_equal 4, @nbc.all_characters.count
+
+    assert_equal true, @nbc.all_characters.include?(@leslie_knope)
+    assert_equal true, @nbc.all_characters.include?(@ron_swanson)
+
+    bachelor_host = Character.new({name: "BACHELOR_HOST", actor: "Chris Harrison", salary: 2_500_00})
+
+    assert_equal false, @nbc.all_characters.include?(bachelor_host)
+
+  end
+
+  def test_it_can_find_highest_paid_actor
+    @nbc.add_show(@knight_rider)
+
+    assert_equal "David Hasselhoff", @nbc.highest_paid_actor
+    refute_equal "Amy Poehler", @nbc.highest_paid_actor
+
     @nbc.add_show(@parks_and_rec)
 
     assert_equal "Amy Poehler", @nbc.highest_paid_actor
+    refute_equal "David Hasselhoff", @nbc.highest_paid_actor
+  end
+
+  def test_it_can_do_payroll
+    assert_equal 0, @nbc.payroll.count
+
+    @nbc.add_show(@knight_rider)
+
+    keys = @nbc.payroll.keys
+
+    assert_equal true, keys.include?("David Hasselhoff")
+    assert_equal 1600000, @nbc.payroll["David Hasselhoff"]
+
+    assert_equal true, keys.include?("William Daniels")
+
+    assert_equal 1000000, @nbc.payroll["William Daniels"]
+    #check payroll after adding first show
+
+    assert_equal 2, @nbc.payroll.count
+
+    @nbc.add_show(@parks_and_rec)
+
+    keys = @nbc.payroll.keys
+
+    assert_equal true, keys.include?("Amy Poehler")
+    assert_equal 2000000, @nbc.payroll["Amy Poehler"]
+
+    assert_equal true, keys.include?("Nick Offerman")
+    assert_equal 1400000, @nbc.payroll["Nick Offerman"]
+
+    assert_equal 4, @nbc.payroll.count
+
+    assert_equal true, keys.include?("David Hasselhoff")
+    assert_equal 1600000, @nbc.payroll["David Hasselhoff"]
+
+    bachelor_host = Character.new({name: "Bachelor Host", actor: "Chris Harrison", salary: 2_500_00})
+
+    keys = @nbc.payroll.keys
+
+    assert_equal false, keys.include?("Bachelor Host")
   end
 
 end
