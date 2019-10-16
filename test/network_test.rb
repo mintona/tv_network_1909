@@ -94,9 +94,7 @@ class NetworkTest < Minitest::Test
     assert_equal 1600000, @nbc.payroll["David Hasselhoff"]
 
     assert_equal true, keys.include?("William Daniels")
-
     assert_equal 1000000, @nbc.payroll["William Daniels"]
-    #check payroll after adding first show
 
     assert_equal 2, @nbc.payroll.count
 
